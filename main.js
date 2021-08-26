@@ -50,6 +50,7 @@ exports.run = async({provisioningHost, idScope, registrationId, symmetricKey}) =
         // send telemetry data every 2 seconds
         setInterval(async() => {
           let data = await IO.readSensorData();
+          data.deviceId = result.deviceId;
           let message = new Message(JSON.stringify(data));
 
           client.sendEvent(message, function (err) {
@@ -60,7 +61,7 @@ exports.run = async({provisioningHost, idScope, registrationId, symmetricKey}) =
               console.log('Message sent to Azure IoT Hub');
             }
           });
-        }, 2000);
+        }, 10000);
     });
   } catch (err) {
     console.log("error registering device: " + err);
